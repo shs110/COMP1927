@@ -1,0 +1,9 @@
+A
+ \
+  C
+ / \
+B   E
+   / \
+  D   F
+
+Tree is a binary search tree

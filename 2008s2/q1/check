@@ -1,0 +1,41 @@
+#!/bin/sh
+
+case $# in
+1) all="" ;;
+2) all="-A" ;;
+esac
+
+ulimit -Sc  1024 # core file size      (blocks) 1M
+ulimit -Sd 10240 # data seg size       (kbytes) 10M
+ulimit -Sm 10240 # max memory size     (kbytes) 10M
+ulimit -Sn   256 # open files
+ulimit -Ss  4096 # stack size          (kbytes) 4M
+ulimit -St    20 # cpu time           (seconds)
+ulimit -Su   200 # max user processes
+ulimit -Sv 40960 # virtual memory      (kbytes) 40M
+ulimit -Sf    10 # output file size    (kbytes) 10K
+
+np=0
+for t in 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16
+do
+	echo ""
+	echo "Test $t"
+	./exe < tests/data$t > tmp
+	if cmp -s tmp tests/out$t
+	then
+		echo PASSED test $t
+		np=`expr $np + 1`
+	else
+		echo FAILED test $t
+		echo Your output:
+		echo ----------------
+		cat $all tmp
+		echo ----------------
+		echo Expected output:
+		echo ----------------
+		cat $all tests/out$t
+		echo ----------------
+	fi
+done
+echo
+echo Passed $np / $t tests

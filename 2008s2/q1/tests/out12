@@ -1,0 +1,9 @@
+    D
+   / \
+  /   \
+ /     \
+B       F
+ \     /
+  E   C
+
+Tree is NOT a binary search tree
